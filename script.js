@@ -26,7 +26,12 @@ document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
     const target = document.querySelector(anchor.getAttribute('href'));
     if (!target) return;
     event.preventDefault();
-    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    const header = document.querySelector('.site-header');
+    const headerOffset = header ? header.offsetHeight + 18 : 18;
+    const targetPosition = target.getBoundingClientRect().top + window.scrollY - headerOffset;
+
+    window.history.replaceState(null, '', anchor.getAttribute('href'));
+    window.scrollTo({ top: targetPosition, behavior: 'smooth' });
   });
 });
 
